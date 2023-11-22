@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { LandingScene, GameScene } from './scenes';
+import { LandingScene, PanelScene } from './scenes';
 import './App.css';
 import { AppService, AppEventType } from './service';
 
@@ -22,7 +22,7 @@ const AppWrapper: React.FC = () => {
 };
 
 enum AppStates {
-	GAME,
+	PANEL,
 	MENU
 }
 
@@ -33,11 +33,11 @@ const App: React.FC = () => {
 	useEffect(
 		() => {
 			service.subject.subscribe((event) => {
-				if (event.type === AppEventType.GAME_START) {
+				if (event.type === AppEventType.PANEL_START) {
 					// set URL
 					const url = window.location.origin + '/' + event.value;
 					window.history.replaceState('', 'Room', url);
-					setAppState(AppStates.GAME);
+					setAppState(AppStates.PANEL);
 				} else {
 					window.history.replaceState('', 'Room', '');
 					setAppState(AppStates.MENU);
@@ -50,7 +50,7 @@ const App: React.FC = () => {
 	return (
 		<div className="App">
 			{appState === AppStates.MENU && <LandingScene key="landing-scene" />}
-			{appState === AppStates.GAME && <GameScene key="game-scene" />}
+			{appState === AppStates.PANEL && <PanelScene key="panel-scene" />}
 		</div>
 	);
 };

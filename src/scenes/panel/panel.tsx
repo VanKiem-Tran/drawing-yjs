@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { DrawingArea } from '../../ui-components';
 import { AppContext } from '../../App';
 
-export const Game = (props) => {
+export const Panel = (props) => {
 	const { service: { drawingService } } = useContext(AppContext);
   console.log(drawingService);
 	return (

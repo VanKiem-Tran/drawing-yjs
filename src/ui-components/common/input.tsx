@@ -43,7 +43,11 @@ export const Input: React.FC<InputProps> = ({ onSubmit, options }) => {
 					aria-describedby="basic-addon1"
 					onChange={handleChange}
 				/>
-				<Button variant="info" type="submit" disabled={text.length === 0}>
+				<Button
+          style={{ backgroundColor: '#3cb44b', fontSize: '1.5em', fontWeight: 'normal' }}
+					type="submit"
+					disabled={text.length === 0}
+				>
 					{options.buttonLabel}
 				</Button>
 			</InputGroup>

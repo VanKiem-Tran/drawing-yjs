@@ -1,6 +1,6 @@
 {
-	"short_name": "Sketchguessr",
-	"name": "The Sketchguessr game",
+	"short_name": "draw_panel",
+	"name": "The draw panel",
 	"icons": [
 		{
 			"src": "favicon.ico",

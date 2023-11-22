@@ -5,13 +5,13 @@ import { AppContext } from '../../App';
 
 export const LandingScene: React.FC = () => {
 	const { service } = useContext(AppContext);
-	const joinGame = (roomID: string): void => service.enterGame(roomID);
+	const viewPanel = (drillholeID: string): void => service.enterPanel(drillholeID);
 
 	return (
 		<div className="landing-page">
 			<div>
 				<Input
-					onSubmit={joinGame}
+					onSubmit={viewPanel}
 					options={{
 						buttonLabel: 'View',
 						label: 'Drillhole ID',

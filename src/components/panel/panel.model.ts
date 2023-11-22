@@ -1,47 +1,33 @@
 /**
- * The GameModelProp allows to just use one 
+ * The PanelModelProp allows to just use one 
  * of the props, 
  */
-export interface GameModelProp {
+export interface PanelModelProp {
 	currentMasterID?: number;
 	codeWordHash?: string;
-	round?: number;
-	roundsPerGame?: number;
-	state?: GameStates;
-	timePerRound?: number;
-	time?: number;
+	state?: PanelStates;
 }
 
 /**
- * The GameModel needs all of the props!
+ * The PanelModel needs all of the props!
  */
-export interface GameModel extends GameModelProp {
+export interface PanelModel extends PanelModelProp {
 	currentMasterID: number;
 	codeWordHash: string;
-	round: number;
-	roundsPerGame: number;
-	state: GameStates;
-	timePerRound: number;
-	time: number;
+	state: PanelStates;
 }
 
-export type GameModelKeys = keyof GameModel;
+export type PanelModelKeys = keyof PanelModel;
 
-/**
- * The States the Game can be
- */
-export enum GameStates {
+export enum PanelStates {
 	WAITING = 'WAITING',
 	CHOOSING_WORD = 'CHOOSE_WORD',
 	STARTED = 'STARTED',
 	STOPPED = 'STOPPED'
 }
 
-/**
- * Game Events
- */
-export enum GameEvents {
-	GAME_STARTED = 'GAME_STARTED',
+export enum PanelEvents {
+	PANEL_STARTED = 'PANEL_STARTED',
 }
 
-export const GAME_STORE_NAME = 'game';
+export const PANEL_STORE_NAME = 'panel';

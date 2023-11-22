@@ -1,12 +1,12 @@
 import { Subject } from 'rxjs';
-import { GameStoreAdapter, GameService } from '../components/panel';
+import { PanelStoreAdapter, PanelService } from '../components/panel';
 import { PlayerStoreAdapter, PlayerService } from '../components/user';
 import { DrawingStoreAdapter, DrawingService } from '../components/drawing';
 import { EventBus, CacheStoreSyncInterface, CommunicationService, CacheStoreSync, PersistentStore } from '.';
 
 export enum AppEventType {
-	GAME_START = 'game_start',
-	GAME_END = 'game_end'
+	PANEL_START = 'panel_start',
+	PANEL_END = 'panel_end',
 }
 
 export interface AppStateEvent {
@@ -19,8 +19,8 @@ function createEvent(type: AppEventType, value: any): AppStateEvent {
 }
 
 export class AppService {
-	gameEntered = false;
-	roomID: string;
+	panelEntered = false;
+	drillholeID: string;
 	subject: Subject<AppStateEvent> = new Subject();
 
 	cacheStore: CacheStoreSyncInterface;
@@ -29,34 +29,34 @@ export class AppService {
 
 	// Adapters
 	drawingStoreAdapter: DrawingStoreAdapter;
-	gameStoreAdapter: GameStoreAdapter;
+	PanelStoreAdapter: PanelStoreAdapter;
 	playerStoreAdapter: PlayerStoreAdapter;
 
 	// services
 	drawingService: DrawingService;
-	gameService: GameService;
+	PanelService: PanelService;
 	playerService: PlayerService;
 
-	startGame() {
-		if (this.gameService.isGameRunning()) return;
+	startPanel() {
+		if (this.PanelService.isPanelRunning()) return;
 
-		this.gameService.setupGame({});
-		this.gameService.startGame();
+		this.PanelService.setupPanel({});
+		this.PanelService.startPanel();
 	}
-	enterGame(roomID = ''): void {
-		this.roomID = roomID;
+	enterPanel(drillholeID = ''): void {
+		this.drillholeID = drillholeID;
 
 		// THE Big Setup
 		this.eventBus = new EventBus();
 		this.cacheStore = new CacheStoreSync();
 
 		// Instance of the Adapers
-		this.gameStoreAdapter = new GameStoreAdapter(this.cacheStore);
+		this.PanelStoreAdapter = new PanelStoreAdapter(this.cacheStore);
 		this.playerStoreAdapter = new PlayerStoreAdapter(this.cacheStore);
 		this.drawingStoreAdapter = new DrawingStoreAdapter(this.cacheStore);
 
 		//
-		this.gameService = new GameService(this.gameStoreAdapter);
+		this.PanelService = new PanelService(this.PanelStoreAdapter);
 		this.playerService = new PlayerService(this.playerStoreAdapter);
 		this.drawingService = new DrawingService(this.drawingStoreAdapter);
 
@@ -67,15 +67,15 @@ export class AppService {
 		this.commService = new CommunicationService(
 			this.cacheStore,
 			this.eventBus,
-			this.roomID
+			this.drillholeID
 		);
 
 		// setup listener to the different services
-		this.eventBus.addService(this.gameService);
+		this.eventBus.addService(this.PanelService);
 		this.eventBus.addService(this.playerService);
 		this.eventBus.addService(this.drawingService);
 
-		this.gameEntered = true;
-		this.subject.next(createEvent(AppEventType.GAME_START, roomID));
+		this.panelEntered = true;
+		this.subject.next(createEvent(AppEventType.PANEL_START, drillholeID));
 	}
 }

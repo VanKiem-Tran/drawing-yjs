@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
-import { GameStorePort } from './panel_store.port';
-import { GameModelProp, GameEvents, GameStates, GameModel, GameModelKeys } from './panel.model';
+import { PanelStorePort } from './panel_store.port';
+import { PanelModelProp, PanelEvents, PanelStates, PanelModel, PanelModelKeys } from './panel.model';
 
 import { ServiceInterface } from '../base/service.interface';
 import { hashString } from '../../util';
@@ -9,92 +9,88 @@ import { PersistentStore } from '../../service';
 /**
  * Events 
  */
-interface GameEvent {
-	type: GameEvents;
+interface PanelEvent {
+	type: PanelEvents;
 	value?: any;
 }
 
 /**
- * Utility function to create GameService Events
+ * Utility function to create PanelService Events
  * faster then using class. Use this, until, a class is needed
  * meanwhile plain objects are fine
  * 
- * @param type : GameEvents
+ * @param type : PanelEvents
  * @param value : any
  */
-const createEvent = (type: GameEvents, value?: any): GameEvent => {
+const createEvent = (type: PanelEvents, value?: any): PanelEvent => {
 	return {
 		type,
 		value
-	} as GameEvent;
+	} as PanelEvent;
 };
 
-export class GameService implements ServiceInterface<GameEvent> {
+export class PanelService implements ServiceInterface<PanelEvent> {
 	private _timer: NodeJS.Timeout;
-	private _adapter: GameStorePort;
-	private _subject = new Subject<GameEvent>();
+	private _adapter: PanelStorePort;
+	private _subject = new Subject<PanelEvent>();
 
-	get subject(): Subject<GameEvent> {
+	get subject(): Subject<PanelEvent> {
 		console.log('someone is using the subject');
 		return this._subject;
 	}
 
-	constructor(adapter: GameStorePort) {
+	constructor(adapter: PanelStorePort) {
 		this._adapter = adapter;
 
-		this._adapter.onUpdate((prop: GameModelProp) => {
+		this._adapter.onUpdate((prop: PanelModelProp) => {
 			Object.entries(prop).forEach(([ key, value ]) => {
-				this._handleGameStateChanged(key as GameModelKeys, value);
+				this._handlePanelStateChanged(key as PanelModelKeys, value);
 			});
 		});
 	}
 
 	dispose() {
-		console.log('GameService dispose');
+		console.log('PanelService dispose');
 		clearInterval(this._timer);
 		this._subject.complete();
 	}
 
 	// sorted after probability of occurring
-	private _handleGameStateChanged(key: GameModelKeys, value: any): void {
+	private _handlePanelStateChanged(key: PanelModelKeys, value: any): void {
 		if (this._subject.observers.length === 0) return;
 
-		this._subject.next(createEvent(GameEvents.GAME_STARTED));
+		this._subject.next(createEvent(PanelEvents.PANEL_STARTED));
 	}
 
-	setupGame(props: GameModelProp): void {
-		console.log('Setup Game');
+	setupPanel(props: PanelModelProp): void {
+		console.log('Setup panel');
 		const prop = {
 			codeWordHash: (props.codeWordHash && hashString(props.codeWordHash)) || hashString('test'),
-			round: props.round || 1,
-			roundsPerGame: props.roundsPerGame || 3,
 			currentMasterID: props.currentMasterID || PersistentStore.id,
-			state: props.state || GameStates.WAITING,
-			time: props.time || 60,
-			timePerRound: props.timePerRound || 60
-		} as GameModel;
+			state: props.state || PanelStates.WAITING,
+		} as PanelModel;
 
 		clearInterval(this._timer);
 		this._adapter.updateProp(prop);
 	}
 
-	startGame(): void {
+	startPanel(): void {
 		const state = this._adapter.get('state');
 
-		if (state === GameStates.STARTED || state === GameStates.CHOOSING_WORD) return;
+		if (state === PanelStates.STARTED || state === PanelStates.CHOOSING_WORD) return;
 
-		console.log('START GAME');
+		console.log('START PANEL');
 		this._adapter.updateProp({
-			state: GameStates.STARTED
+			state: PanelStates.STARTED
 		});
 	}
 
-	get gameState(): GameStates {
-		return this._adapter.get('state') as GameStates;
+	get panelState(): PanelStates {
+		return this._adapter.get('state') as PanelStates;
 	}
 
-	isGameRunning(): boolean {
-		const state = this.gameState;
-		return state === GameStates.CHOOSING_WORD || state === GameStates.STARTED;
+	isPanelRunning(): boolean {
+		const state = this.panelState;
+		return state === PanelStates.CHOOSING_WORD || state === PanelStates.STARTED;
 	}
 }

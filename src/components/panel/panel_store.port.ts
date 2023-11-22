@@ -1,9 +1,9 @@
-import { GameModelProp, GameModel } from './panel.model';
+import { PanelModelProp, PanelModel } from './panel.model';
 
-export interface GameStorePort {
-	updateProp(props: GameModelProp): void;
-	onUpdate: (f: (prop: GameModelProp) => void) => void;
+export interface PanelStorePort {
+	updateProp(props: PanelModelProp): void;
+	onUpdate: (f: (prop: PanelModelProp) => void) => void;
 	dispose();
-	get<K extends keyof GameModel>(key: K): GameModel[K] | undefined;
-	set<K extends keyof GameModel>(key: K, value: GameModel[K]): void;
+	get<K extends keyof PanelModel>(key: K): PanelModel[K] | undefined;
+	set<K extends keyof PanelModel>(key: K, value: PanelModel[K]): void;
 }

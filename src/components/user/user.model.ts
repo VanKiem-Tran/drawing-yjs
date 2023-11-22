@@ -32,7 +32,7 @@ export class Player implements PlayerModel {
 	 */
 	static timeOutOffline = 1000;
 	/**
-	 * the time, when the player is definitely left the game 
+	 * the time, when the player is definitely left the panel 
 	 */
 	static timeOutTotal = 10000;
 
