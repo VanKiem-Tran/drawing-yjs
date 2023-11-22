@@ -1,41 +1,41 @@
-import { PlayerStorePort } from './user.store.port';
-import { PlayerModel, Player } from './user.model';
+import { UserStorePort } from './user.store.port';
+import { UserModel, User } from './user.model';
 import { Subject } from 'rxjs';
-import { PlayerServiceInterface } from './user.service.interface';
+import { UserServiceInterface } from './user.service.interface';
 
 /**
- * This Player Service operates only the local Player, hence, no Id is needed
+ * This User Service operates only the local User, hence, no Id is needed
  */
-export class PlayerService implements PlayerServiceInterface {
-	private _map = new Map<string, PlayerModel>();
-	private _adapter: PlayerStorePort;
-	private _localPlayer: PlayerModel;
-	private _subject = new Subject<Player[]>();
+export class UserService implements UserServiceInterface {
+	private _map = new Map<string, UserModel>();
+	private _adapter: UserStorePort;
+	private _localUser: UserModel;
+	private _subject = new Subject<User[]>();
 	private _heartBeat;
 
-	get subject(): Subject<Player[]> {
+	get subject(): Subject<User[]> {
 		return this._subject;
 	}
 
-	get players(): Player[] {
-		const players: Player[] = [];
+	get users(): User[] {
+		const users: User[] = [];
 
 		for (const p of Array.from(this._map.values())) {
-			players.push(new Player(p));
+			users.push(new User(p));
 		}
-		return players;
+		return users;
 	}
 
-	isLocalPlayer(id: number): boolean {
-		return id === this._localPlayer.id;
+	isLocalUser(id: number): boolean {
+		return id === this._localUser.id;
 	}
 
-	constructor(adapter: PlayerStorePort) {
+	constructor(adapter: UserStorePort) {
 		this._adapter = adapter;
 
-		this._adapter.onUpdate((players) => {
-			this._map = players;
-			this._subject.next(this.players);
+		this._adapter.onUpdate((users) => {
+			this._map = users;
+			this._subject.next(this.users);
 		});
 	}
 
@@ -45,9 +45,9 @@ export class PlayerService implements PlayerServiceInterface {
 
 	create(name: string): void {
 		// should only be called once
-		if (this._localPlayer) return;
+		if (this._localUser) return;
 
-		this._localPlayer = this._adapter.add({
+		this._localUser = this._adapter.add({
 			lastOnline: Date.now(),
 			name: name,
 			points: 0,
@@ -69,7 +69,7 @@ export class PlayerService implements PlayerServiceInterface {
 
 	addPoints(points: number): void {
 		this._adapter.updateProp({
-			points: this._localPlayer.points + points
+			points: this._localUser.points + points
 		});
 	}
 }

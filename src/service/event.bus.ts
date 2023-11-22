@@ -6,7 +6,7 @@ export interface EventBusInterface {
 	on(type: EventBusType, listener: (...args: any[]) => void);
 	off(type: EventBusType, listener: (...args: any[]) => void);
 	onSync(data: any);
-	onPlayerConnection(id: string, connected: boolean);
+	onUserConnection(id: string, connected: boolean);
 	dispose();
 	addService(service);
 }
@@ -31,7 +31,7 @@ export class EventBus implements EventBusInterface {
 		this.emitter.off(type, listener);
 	}
 
-	onPlayerConnection(id: string, connected: boolean) {
+	onUserConnection(id: string, connected: boolean) {
 		this.emitter.emit('CONNECTION', {
 			connected,
 			id

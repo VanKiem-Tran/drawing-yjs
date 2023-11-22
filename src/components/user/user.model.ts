@@ -2,7 +2,7 @@
  * This is the Interface, which will be used to update certain props.
  * Props are optional
  */
-export interface PlayerProps {
+export interface UserProps {
 	name?: string;
 	points?: number;
 	lastOnline?: number;
@@ -11,7 +11,7 @@ export interface PlayerProps {
 /**
  * This is the Model, which has all Props!!
  */
-export interface PlayerModel extends PlayerProps {
+export interface UserModel extends UserProps {
 	// this is the yjs doc id, possible removable
 	id: number;
 	name: string;
@@ -22,17 +22,17 @@ export interface PlayerModel extends PlayerProps {
 /**
  * I dont know, if we should do it like this, 
  * We need a class to check against online time...
- * we cant put it into the PlayerModel Interface, since
+ * we cant put it into the UserModel Interface, since
  * we dont want this Logic in the UI to happen
  */
-export class Player implements PlayerModel {
+export class User implements UserModel {
 	/**
-	 * time, when in the player lost connection, and
+	 * time, when in the user lost connection, and
 	 * is probably not gone
 	 */
 	static timeOutOffline = 1000;
 	/**
-	 * the time, when the player is definitely left the panel 
+	 * the time, when the user is definitely left the panel 
 	 */
 	static timeOutTotal = 10000;
 
@@ -40,20 +40,20 @@ export class Player implements PlayerModel {
 	name: string;
 	points: number;
 	lastOnline: number;
-	constructor(props: PlayerModel) {
+	constructor(props: UserModel) {
 		this.id = props.id;
 		this.name = props.name;
 		this.points = props.points;
 		this.lastOnline = props.lastOnline;
 	}
 
-	// indicates that the player is online, maybe an glitch or so
+	// indicates that the user is online, maybe an glitch or so
 	public online(): boolean {
-		return Date.now() - this.lastOnline < Player.timeOutOffline;
+		return Date.now() - this.lastOnline < User.timeOutOffline;
 	}
 
-	// indicates that the player is not online anymore and gone...
+	// indicates that the user is not online anymore and gone...
 	public gone(): boolean {
-		return Date.now() - this.lastOnline > Player.timeOutTotal;
+		return Date.now() - this.lastOnline > User.timeOutTotal;
 	}
 }

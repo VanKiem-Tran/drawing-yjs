@@ -1,25 +1,25 @@
 import { Map as YMap } from 'yjs';
-import { PlayerStorePort } from './user.store.port';
-import { PlayerModel, PlayerProps } from './user.model';
+import { UserStorePort } from './user.store.port';
+import { UserModel, UserProps } from './user.model';
 import { CacheStoreSyncInterface, PersistentStore } from '../../service';
 
 
-export class PlayerStoreAdapter implements PlayerStorePort {
-	private _store = new YMap<YMap<PlayerModel>>();
+export class UserStoreAdapter implements UserStorePort {
+	private _store = new YMap<YMap<UserModel>>();
 	private _transact;
 
 	constructor(store: CacheStoreSyncInterface) {
-		this._store = store.yDoc.getMap('player');
+		this._store = store.yDoc.getMap('user');
 
 		this._transact = store.transact;
 		this._store.observe(this._observer);
-		this._store.observeDeep(this._onPlayerUpdate);
+		this._store.observeDeep(this._onUserUpdate);
 	}
 
 	/**
 	 * This observer gets notified, when the store changes
-	 * either, player gets added, updated, or removed
-	 * on the key -value level, not the actual player props
+	 * either, user gets added, updated, or removed
+	 * on the key -value level, not the actual user props
 	 */
 	_observer = (event, tran) => {
 		// or should just get that key
@@ -30,50 +30,50 @@ export class PlayerStoreAdapter implements PlayerStorePort {
 	};
 
 	dispose(): void {
-		this._store.unobserveDeep(this._onPlayerUpdate);
+		this._store.unobserveDeep(this._onUserUpdate);
 		this._store.unobserve(this._observer);
 	}
 
 	/**
      * Override this function
      */
-	private _updateLister = (p: Map<string, PlayerModel>): void => {
+	private _updateLister = (p: Map<string, UserModel>): void => {
 		throw Error('Nobody is Listen to me!');
 	};
 
 	// converts form yjs-map to normal map
-	private _onPlayerUpdate = (): void => {
-		const players = new Map<string, PlayerModel>();
+	private _onUserUpdate = (): void => {
+		const users = new Map<string, UserModel>();
 
-		this._store.forEach((player, key) => {
-			players.set(key, player.toJSON() as PlayerModel);
+		this._store.forEach((user, key) => {
+			users.set(key, user.toJSON() as UserModel);
 		});
 
-		this._updateLister(players);
+		this._updateLister(users);
 	};
 
 	/**
-     *  Function operates only on local player!
+     *  Function operates only on local user!
      */
-	add(player: PlayerModel): PlayerModel {
-		const p = new YMap<PlayerModel>();
+	add(user: UserModel): UserModel {
+		const p = new YMap<UserModel>();
 
-		player.id = PersistentStore.id;
+		user.id = PersistentStore.id;
 
 		// update in a batch
 		this._transact(() => {
-			const obj = Object.entries(player);
+			const obj = Object.entries(user);
 			obj.forEach(([key, value]) => p.set(key, value));
 		});
 
 		this._store.set(PersistentStore.id.toString(), p);
-		return player;
+		return user;
 	}
 
 	/**
-     * Function operates only on local player!
+     * Function operates only on local user!
      */
-	updateProp(props: PlayerProps): void {
+	updateProp(props: UserProps): void {
 		const p = this._store.get(PersistentStore.id.toString());
 
 		if (p) {
@@ -88,7 +88,7 @@ export class PlayerStoreAdapter implements PlayerStorePort {
 		}
 	}
 
-	onUpdate(handler: (players: Map<string, PlayerModel>) => void): void {
+	onUpdate(handler: (users: Map<string, UserModel>) => void): void {
 		this._updateLister = handler;
 	}
 }

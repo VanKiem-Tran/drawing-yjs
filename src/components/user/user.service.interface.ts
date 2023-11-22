@@ -1,10 +1,10 @@
-import { Player } from './user.model';
+import { User } from './user.model';
 import { ServiceInterface } from '../base/service.interface';
 
-export interface PlayerServiceInterface extends ServiceInterface<Player[]> {
-	players: Player[];
+export interface UserServiceInterface extends ServiceInterface<User[]> {
+	users: User[];
 	create(name: string): void;
 	addPoints(points: number): void;
 	updateName(name: string): void;
-	isLocalPlayer(id: number): boolean;
+	isLocalUser(id: number): boolean;
 }

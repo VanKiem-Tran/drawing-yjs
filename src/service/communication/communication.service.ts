@@ -25,8 +25,8 @@ export class CommunicationService {
 
 		this._provider.on('peers', (peers) => {
 			console.log(peers);
-			peers.added.forEach((peerID) => eventBus.onPlayerConnection(peerID, true));
-			peers.removed.forEach((peerID) => eventBus.onPlayerConnection(peerID, false));
+			peers.added.forEach((peerID) => eventBus.onUserConnection(peerID, true));
+			peers.removed.forEach((peerID) => eventBus.onUserConnection(peerID, false));
 		});
 
 		// Clean up Provider

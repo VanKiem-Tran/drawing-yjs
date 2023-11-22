@@ -1,15 +1,15 @@
-import { PlayerModel, PlayerProps } from './user.model';
+import { UserModel, UserProps } from './user.model';
 
-export interface PlayerStorePort {
+export interface UserStorePort {
 	/**
-	 * Function adds a local player!
-	 * @param player the local player
+	 * Function adds a local user!
+	 * @param user the local user
 	 */
-	add(player: PlayerModel): PlayerModel;
+	add(user: UserModel): UserModel;
 	/**
 	 * 
 	 * @param props Props
 	 */
-	updateProp(props: PlayerProps);
-	onUpdate(handler: (player: Map<string, PlayerModel>) => void);
+	updateProp(props: UserProps);
+	onUpdate(handler: (user: Map<string, UserModel>) => void);
 }

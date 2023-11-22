@@ -18,8 +18,8 @@ export class PanelStoreAdapter implements PanelStorePort {
 
 	/**
 	 * This observer gets notified, when the store changes
-	 * either, player gets added, updated, or removed
-	 * on the key -value level, not the actual player props
+	 * either, user gets added, updated, or removed
+	 * on the key -value level, not the actual user props
 	 */
 	_observer = (event, tran): void => {
 		// console.log(tran);

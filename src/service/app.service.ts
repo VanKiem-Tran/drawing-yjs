@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import { PanelStoreAdapter, PanelService } from '../components/panel';
-import { PlayerStoreAdapter, PlayerService } from '../components/user';
+import { UserStoreAdapter, UserService } from '../components/user';
 import { DrawingStoreAdapter, DrawingService } from '../components/drawing';
 import { EventBus, CacheStoreSyncInterface, CommunicationService, CacheStoreSync, PersistentStore } from '.';
 
@@ -30,12 +30,12 @@ export class AppService {
 	// Adapters
 	drawingStoreAdapter: DrawingStoreAdapter;
 	PanelStoreAdapter: PanelStoreAdapter;
-	playerStoreAdapter: PlayerStoreAdapter;
+	userStoreAdapter: UserStoreAdapter;
 
 	// services
 	drawingService: DrawingService;
 	PanelService: PanelService;
-	playerService: PlayerService;
+	userService: UserService;
 
 	startPanel() {
 		if (this.PanelService.isPanelRunning()) return;
@@ -52,16 +52,16 @@ export class AppService {
 
 		// Instance of the Adapers
 		this.PanelStoreAdapter = new PanelStoreAdapter(this.cacheStore);
-		this.playerStoreAdapter = new PlayerStoreAdapter(this.cacheStore);
+		this.userStoreAdapter = new UserStoreAdapter(this.cacheStore);
 		this.drawingStoreAdapter = new DrawingStoreAdapter(this.cacheStore);
 
 		//
 		this.PanelService = new PanelService(this.PanelStoreAdapter);
-		this.playerService = new PlayerService(this.playerStoreAdapter);
+		this.userService = new UserService(this.userStoreAdapter);
 		this.drawingService = new DrawingService(this.drawingStoreAdapter);
 
-		// Player Init
-		this.playerService.create(PersistentStore.localName);
+		// User Init
+		this.userService.create(PersistentStore.localName);
 
 		// setup to Communication Service to connect to others
 		this.commService = new CommunicationService(
@@ -72,7 +72,7 @@ export class AppService {
 
 		// setup listener to the different services
 		this.eventBus.addService(this.PanelService);
-		this.eventBus.addService(this.playerService);
+		this.eventBus.addService(this.userService);
 		this.eventBus.addService(this.drawingService);
 
 		this.panelEntered = true;
