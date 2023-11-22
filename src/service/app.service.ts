@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
-import { GameStoreAdapter, GameService } from '../components/game';
-import { PlayerStoreAdapter, PlayerService } from '../components/player';
+import { GameStoreAdapter, GameService } from '../components/panel';
+import { PlayerStoreAdapter, PlayerService } from '../components/user';
 import { DrawingStoreAdapter, DrawingService } from '../components/drawing';
 import { EventBus, CacheStoreSyncInterface, CommunicationService, CacheStoreSync, PersistentStore } from '.';
 
@@ -39,16 +39,11 @@ export class AppService {
 
 	startGame() {
 		if (this.gameService.isGameRunning()) return;
-		console.log('START GAME');
 
 		this.gameService.setupGame({});
 		this.gameService.startGame();
 	}
 	enterGame(roomID = ''): void {
-		if (this.gameEntered) {
-			console.error("Can't enter the game twice");
-			return;
-		}
 		this.roomID = roomID;
 
 		// THE Big Setup

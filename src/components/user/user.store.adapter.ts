@@ -1,6 +1,6 @@
 import { Map as YMap } from 'yjs';
-import { PlayerStorePort } from './player.store.port';
-import { PlayerModel, PlayerProps } from './player.model';
+import { PlayerStorePort } from './user.store.port';
+import { PlayerModel, PlayerProps } from './user.model';
 import { CacheStoreSyncInterface, PersistentStore } from '../../service';
 
 

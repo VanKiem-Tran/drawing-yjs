@@ -1,4 +1,4 @@
-import { Player } from './player.model';
+import { Player } from './user.model';
 import { ServiceInterface } from '../base/service.interface';
 
 export interface PlayerServiceInterface extends ServiceInterface<Player[]> {

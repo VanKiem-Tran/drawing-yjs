@@ -1,4 +1,4 @@
-import { PlayerModel, PlayerProps } from './player.model';
+import { PlayerModel, PlayerProps } from './user.model';
 
 export interface PlayerStorePort {
 	/**

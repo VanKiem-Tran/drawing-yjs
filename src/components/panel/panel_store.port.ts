@@ -1,4 +1,4 @@
-import { GameModelProp, GameModel } from './game.model';
+import { GameModelProp, GameModel } from './panel.model';
 
 export interface GameStorePort {
 	updateProp(props: GameModelProp): void;

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import { Map as YMap } from 'yjs';
-import { GameStorePort } from './game_store.port';
+import { GameStorePort } from './panel_store.port';
 import { CacheStoreSyncInterface } from '../../service';
-import { GAME_STORE_NAME, GameModelProp, GameModel, GameModelKeys } from './game.model';
+import { GAME_STORE_NAME, GameModelProp, GameModel, GameModelKeys } from './panel.model';
 
 
 

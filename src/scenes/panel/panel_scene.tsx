@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Game } from './game';
+import { Game } from './panel';
 import { AppContext } from '../../App';
-import { GameEvents } from '../../components/game';
+import { GameEvents } from '../../components/panel';
 
 enum GameState {
 	WAITING_ROOM,

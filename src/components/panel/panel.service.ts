@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
-import { GameStorePort } from './game_store.port';
-import { GameModelProp, GameEvents, GameStates, GameModel, GameModelKeys } from './game.model';
+import { GameStorePort } from './panel_store.port';
+import { GameModelProp, GameEvents, GameStates, GameModel, GameModelKeys } from './panel.model';
 
 import { ServiceInterface } from '../base/service.interface';
 import { hashString } from '../../util';

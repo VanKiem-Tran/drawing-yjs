@@ -1,7 +1,7 @@
-import { PlayerStorePort } from './player.store.port';
-import { PlayerModel, Player } from './player.model';
+import { PlayerStorePort } from './user.store.port';
+import { PlayerModel, Player } from './user.model';
 import { Subject } from 'rxjs';
-import { PlayerServiceInterface } from './player.service.interface';
+import { PlayerServiceInterface } from './user.service.interface';
 
 /**
  * This Player Service operates only the local Player, hence, no Id is needed

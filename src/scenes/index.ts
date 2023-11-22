@@ -1,2 +1,2 @@
-export * from './game/game_scene';
+export * from './panel/panel_scene';
 export * from './landing/landing_scene';
