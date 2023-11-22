@@ -1,0 +1,71 @@
+{
+	"name": "sketchguessr",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@capacitor/cli": "^1.3.0",
+		"@capacitor/core": "^1.3.0",
+		"@dicebear/avatars": "^3.1.4",
+		"@dicebear/avatars-bottts-sprites": "^1.1.4",
+		"@ionic/react": "^4.11.5",
+		"@types/chance": "^1.0.8",
+		"@types/jest": "24.0.23",
+		"@types/node": "^12.12.14",
+		"@types/react": "^16.9.14",
+		"@types/react-bootstrap": "^0.32.20",
+		"@types/react-dom": "16.9.4",
+		"@types/react-redux": "^7.1.5",
+		"bootstrap": "^4.4.1",
+		"chance": "^1.1.3",
+		"lib0": "^0.2.12",
+		"react": "^16.12.0",
+		"react-bootstrap": "^1.0.0-beta.16",
+		"react-dom": "^16.12.0",
+		"react-full-screen": "^0.2.4",
+		"react-graph-vis": "^1.0.5",
+		"react-scripts": "^3.4.1",
+		"rxjs": "^6.5.3",
+		"simple-peer": "^9.6.2",
+		"typescript": "3.7.3",
+		"ulog": "^1.1.0",
+		"y-protocols": "^0.1.0",
+		"y-webrtc": "^10.1.5",
+		"yjs": "^13.2.0"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"doc.uml": "tsuml --glob ./src/**/*.ts",
+		"doc.type": "typedoc --out docs.types src",
+		"doc.viz": "tsviz src/ docs.viz/diagram.png",
+		"doc.viz.d": "tsviz -d -r src/components docs.viz/diagram_dependencies.png",
+		"doc.viz.r": "tsviz -r src/ docs.viz/diagram_recurs.png",
+		"doc.tplant": "tplant --input src/components/**/*.ts --output puml/components.puml",
+		"doc.tplant.svg": "tplant --input src/components/**/*.ts --output puml/components.svg"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"eslint-plugin-react": "^7.20.3",
+		"husky": "^3.1.0",
+		"tplant": "^2.3.3",
+		"tsuml": "0.0.1-alpha.8",
+		"tsviz": "^1.0.11",
+		"typedoc": "^0.15.8"
+	}
+}
