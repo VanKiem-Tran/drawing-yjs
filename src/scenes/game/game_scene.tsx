@@ -21,9 +21,6 @@ export const GameScene: React.FC = () => {
 					case GameEvents.GAME_STARTED:
 						setState(GameState.PLAY);
 						break;
-					case GameEvents.GAME_STOPPED:
-						setState(GameState.WAITING_ROOM);
-						break;
 				}
 			});
 

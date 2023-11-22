@@ -28,7 +28,6 @@ enum AppStates {
 
 const App: React.FC = () => {
 	const { service } = useContext(AppContext);;
-	const createGame = (): void => service.enterGame();
 	const [ appState, setAppState ] = useState<AppStates>(AppStates.MENU);
 
 	useEffect(

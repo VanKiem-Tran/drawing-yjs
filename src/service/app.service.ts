@@ -44,23 +44,6 @@ export class AppService {
 		this.gameService.setupGame({});
 		this.gameService.startGame();
 	}
-
-	stopGame() {
-		if (!this.gameService.isGameRunning()) return;
-		console.log('STOP GAME');
-		this.gameService.stopGame();
-
-		// clears the store for all!
-		this.drawingService.clearDrawing();
-	}
-
-	nextRound() {
-		this.gameService.nextRound();
-	}
-
-	/**
-	 * Setup all services and adapters
-	 */
 	enterGame(roomID = ''): void {
 		if (this.gameEntered) {
 			console.error("Can't enter the game twice");
@@ -86,7 +69,11 @@ export class AppService {
 		this.playerService.create(PersistentStore.localName);
 
 		// setup to Communication Service to connect to others
-		this.commService = new CommunicationService(this.cacheStore, this.eventBus, this.roomID);
+		this.commService = new CommunicationService(
+			this.cacheStore,
+			this.eventBus,
+			this.roomID
+		);
 
 		// setup listener to the different services
 		this.eventBus.addService(this.gameService);
@@ -95,28 +82,5 @@ export class AppService {
 
 		this.gameEntered = true;
 		this.subject.next(createEvent(AppEventType.GAME_START, roomID));
-	}
-
-	/**
-	 * Clean up all services and adapters
-	 */
-	exitGame(): void {
-		// Dispose of Services
-		this.commService.dispose();
-		this.playerService.dispose();
-		this.gameService.dispose();
-		this.eventBus.dispose();
-
-		// Dispose of Adapter
-		this.gameStoreAdapter.dispose();
-		this.playerStoreAdapter.dispose();
-		this.drawingStoreAdapter.dispose();
-
-		// dispose the whole storage
-		this.cacheStore.dispose();
-
-		this.roomID = '';
-		this.subject.next(createEvent(AppEventType.GAME_END, this.roomID));
-		this.gameEntered = false;
 	}
 }

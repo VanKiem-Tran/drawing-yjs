@@ -41,13 +41,7 @@ export enum GameStates {
  * Game Events
  */
 export enum GameEvents {
-	CLOCK_UPDATE = 'CLOCK_UPDATE',
-	ROUND_CHANGE = 'ROUND_CHANGE',
-	MASTER_CHANGED = 'MASTER_CHANGED',
-	CHOOSING_WORD = 'WORD_CHANGED',
 	GAME_STARTED = 'GAME_STARTED',
-	GAME_PAUSED = 'GAME_PAUSED',
-	GAME_STOPPED = 'GAME_STOPPED'
 }
 
 export const GAME_STORE_NAME = 'game';

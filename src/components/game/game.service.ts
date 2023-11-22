@@ -59,27 +59,7 @@ export class GameService implements ServiceInterface<GameEvent> {
 	private _handleGameStateChanged(key: GameModelKeys, value: any): void {
 		if (this._subject.observers.length === 0) return;
 
-		if (key === 'time') {
-			this._subject.next(createEvent(GameEvents.CLOCK_UPDATE, value));
-		} else if (key === 'state') {
-			// Map state to Events
-			switch (value) {
-				case GameStates.CHOOSING_WORD:
-					this._subject.next(createEvent(GameEvents.CHOOSING_WORD));
-					break;
-				case GameStates.WAITING:
-					this._subject.next(createEvent(GameEvents.GAME_PAUSED));
-					break;
-				case GameStates.STARTED:
-					this._subject.next(createEvent(GameEvents.GAME_STARTED));
-					break;
-				case GameStates.STOPPED:
-					this._subject.next(createEvent(GameEvents.GAME_STOPPED));
-					break;
-			}
-		} else if (key === 'round') {
-			this._subject.next(createEvent(GameEvents.ROUND_CHANGE, value));
-		}
+		this._subject.next(createEvent(GameEvents.GAME_STARTED));
 	}
 
 	setupGame(props: GameModelProp): void {
@@ -107,49 +87,6 @@ export class GameService implements ServiceInterface<GameEvent> {
 		this._adapter.updateProp({
 			state: GameStates.STARTED
 		});
-		// setup the game time
-		clearInterval(this._timer);
-		this._timer = setInterval(() => {
-			const time = this._adapter.get('time') as number;
-			this._adapter.set('time', time - 1);
-
-			if (time < 1) {
-				const round = this._adapter.get('round') as number;
-				const roundsPerGame = this._adapter.get('roundsPerGame') as number;
-
-				if (round <= roundsPerGame) this.nextRound();
-				else this.stopGame();
-			}
-		}, 1000);
-	}
-
-	stopGame(): void {
-		console.debug('Game Stopped');
-		clearInterval(this._timer);
-		this._adapter.set('state', GameStates.STOPPED);
-	}
-
-	// TODO: think, how to update via transact here....
-	nextRound(): void {
-		const round = this._adapter.get('round') as number;
-		const timePerRound = this._adapter.get('timePerRound') as number;
-
-		this._adapter.set('round', round + 1);
-		this._adapter.set('time', timePerRound);
-	}
-
-	setNewGuessWord(value: string): void {
-		this._adapter.set('codeWordHash', hashString(value));
-	}
-
-	get time(): number {
-		return this._adapter.get('time') as number;
-	}
-	get roundsPerGame(): number {
-		return this._adapter.get('roundsPerGame') as number;
-	}
-	get round(): number {
-		return this._adapter.get('round') as number;
 	}
 
 	get gameState(): GameStates {
